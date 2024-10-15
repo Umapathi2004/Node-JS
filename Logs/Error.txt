@@ -1,0 +1,13 @@
+14-9-2024   20-22-27 Cors dos't allows! 
+14-9-2024   20-22-28 Cors dos't allows! 
+localhost OPTIONS / https://www.naukri.com 14-9-2024   20-23-44 Cors dos't allows! 
+localhost GET / https://www.naukri.com 14-9-2024   20-23-44 Cors dos't allows! 
+localhost GET /favicon.ico undefined 14-9-2024   20-43-22 ENOENT: no such file or directory, stat 'D:\node\404.html' 
+localhost GET /favicon.ico undefined 14-9-2024   20-43-23 ENOENT: no such file or directory, stat 'D:\node\404.html' 
+localhost GET /favicon.ico undefined 14-9-2024   20-43-32 ENOENT: no such file or directory, stat 'D:\node\404.html' 
+localhost GET /favicon.ico undefined 14-9-2024   20-49-27 ENOENT: no such file or directory, stat 'D:\node\404.html' 
+localhost GET /subdomain/ undefined 14-9-2024   20-49-32 ENOENT: no such file or directory, stat 'D:\node\404.html' 
+localhost GET /favicon.ico undefined 14-9-2024   20-49-32 ENOENT: no such file or directory, stat 'D:\node\404.html' 
+localhost GET /favicon.ico undefined 14-9-2024   20-49-46 ENOENT: no such file or directory, stat 'D:\node\404.html' 
+localhost GET /subdomain/ undefined 14-9-2024   20-49-49 ENOENT: no such file or directory, stat 'D:\node\404.html' 
+localhost GET /favicon.ico undefined 14-9-2024   20-50-0 ENOENT: no such file or directory, stat 'D:\node\404.html' 

@@ -1,11 +1,13 @@
 const express = require("express");
 const port = process.env.PORT || 4500;
 const path = require("path");
+const fs = require("fs").promises;
 const app = express();
 const cors = require("cors");
-const eventLogs = require("./eventLogs.js")
+const root = require("./Routes/root")
+const subdomain = require("./Routes/subdomain")
 
-const whiteList = ["https://www.youtube.com","http://localhost:4500"];
+const whiteList = ["https://www.youtube.com","http://localhost:4500"]; //HANDEL CORS....
 const options={
     origin:(origin,callback)=>{
        if(whiteList.indexOf(origin)!=-1 || !origin){
@@ -17,31 +19,34 @@ const options={
     },
     optionsSuccessStatus:200
 }
+
 app.use(cors(options));
+
 app.use("/",express.static(path.join(__dirname,"public")))
 app.use("/Subdomain",express.static(path.join(__dirname,"public")))
-app.use((req,res,next)=>{
-       const message=`${req.hostname} ${req.method} ${req.url} ${req.headers.origin}`
-       eventLogs(message,"Events.txt");
+
+app.use(async (req,res,next)=>{   //THIS LINE WAS USED FOR MANAGE LOGS...
+    const message=`${req.hostname} ${req.method} ${req.url} ${req.headers.origin}`
+    const date = new Date();
+    const data = `${date.getDate()}-${date.getMonth()}-${date.getFullYear()}   ${date.getHours()}-${date.getMinutes()}-${date.getSeconds()} ${message} \n`;
+    console.log(data);
+    console.log(path.join(__dirname,"Logs","Events.txt"))
+    await fs.appendFile(path.join(__dirname,"Logs","Events.txt"),data)
     next();
 })
-app.get("^/$|index(.html)?",(req,res)=>{
-    res.sendFile(path.join(__dirname,"index.html"))
-})
-app.get("/about(.html)?",(req,res)=>{
-    res.sendFile(path.join(__dirname,"about.html"))
-})
-app.get("/subdomain",(req,res)=>{
-    res.sendFile(path.join(__dirname,"Subdomain","index.html"))
-})
-app.get("/subdomain/about(.html)?",(req,res)=>{
-    res.sendFile(path.join(__dirname,"Subdomain","subabout.html"))
-})
+
+app.use("/",root)   //MANAGE ROUTES...
+app.use("/subdomain",subdomain);
 app.all("*",(req,res)=>{
-    res.sendFile(path.join(__dirname,"404.html"))
+    res.sendFile(path.join(__dirname,"Root","404.html"))
 })
-app.use((err,req,res,next)=>{
-    console.log(err.message);
+
+app.use(async (err,req,res,next)=>{  //THIS LINE WAS USED FOR MANAGE ERROR...
+    const date = new Date();
+    const data = `${req.hostname} ${req.method} ${req.url} ${req.headers.origin} ${date.getDate()}-${date.getMonth()}-${date.getFullYear()}   ${date.getHours()}-${date.getMinutes()}-${date.getSeconds()} ${err.message} \n`;
+    await fs.appendFile(path.join(__dirname,"Logs","Error.txt"),data);
+    res.send(`${err.message}`);
     next()
 })
-app.listen(port,()=>console.log(`This App currently runing in http://localhost:${port}`));
+
+app.listen(port,()=>console.log(`This App currently runing in http://localhost:${port}`)); //START SERVER...

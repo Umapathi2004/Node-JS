@@ -1,0 +1,4 @@
+14-9-2024   21-15-47 localhost GET / undefined 
+14-9-2024   21-15-48 localhost GET /favicon.ico undefined 
+14-9-2024   21-28-2 localhost GET /subdomain/ undefined 
+14-9-2024   21-28-2 localhost GET /favicon.ico undefined 
