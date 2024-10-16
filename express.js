@@ -4,23 +4,15 @@ const path = require("path");
 const fs = require("fs").promises;
 const app = express();
 const cors = require("cors");
+
 const root = require("./Routes/root")
 const subdomain = require("./Routes/subdomain")
+const employees = require("./Routes/api/employees")
+const CorsOpertion = require("./CorsOperation")
 
-const whiteList = ["https://www.youtube.com","http://localhost:4500"]; //HANDEL CORS....
-const options={
-    origin:(origin,callback)=>{
-       if(whiteList.indexOf(origin)!=-1 || !origin){
-        callback(null,true);
-       }
-       else{
-        callback(new Error("Cors dos't allows!"))
-       }
-    },
-    optionsSuccessStatus:200
-}
 
-app.use(cors(options));
+app.use(cors(CorsOpertion));
+app.use(express.json());
 
 app.use("/",express.static(path.join(__dirname,"public")))
 app.use("/Subdomain",express.static(path.join(__dirname,"public")))
@@ -28,17 +20,16 @@ app.use("/Subdomain",express.static(path.join(__dirname,"public")))
 app.use(async (req,res,next)=>{   //THIS LINE WAS USED FOR MANAGE LOGS...
     const message=`${req.hostname} ${req.method} ${req.url} ${req.headers.origin}`
     const date = new Date();
-    const data = `${date.getDate()}-${date.getMonth()}-${date.getFullYear()}   ${date.getHours()}-${date.getMinutes()}-${date.getSeconds()} ${message} \n`;
-    console.log(data);
-    console.log(path.join(__dirname,"Logs","Events.txt"))
+    const data = `${date.getDate()}-${date.getMonth()}-${date.getFullYear()}   ${date.getHours()}-${date.getMinutes()}-${date.getSeconds()} ${message} \n`; 
     await fs.appendFile(path.join(__dirname,"Logs","Events.txt"),data)
     next();
 })
 
 app.use("/",root)   //MANAGE ROUTES...
 app.use("/subdomain",subdomain);
+app.use("/employees",employees)
 app.all("*",(req,res)=>{
-    res.sendFile(path.join(__dirname,"Root","404.html"))
+    res.status(404).sendFile(path.join(__dirname,"Root","404.html"))
 })
 
 app.use(async (err,req,res,next)=>{  //THIS LINE WAS USED FOR MANAGE ERROR...

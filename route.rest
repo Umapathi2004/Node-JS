@@ -1,0 +1,10 @@
+GET http://localhost:4500/employees/
+
+###
+POST http://localhost:4500/employees/ 
+Content-Type: application/json
+
+{
+    "fullname":"Deepack",
+    "age":32
+}
