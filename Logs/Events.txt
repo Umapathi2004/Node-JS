@@ -19,3 +19,7 @@
 16-9-2024   10-40-24 localhost GET /employees/6 undefined 
 16-9-2024   10-40-53 localhost GET /employees undefined 
 16-9-2024   10-41-30 localhost DELETE /employees undefined 
+16-9-2024   14-56-42 localhost GET / undefined 
+16-9-2024   14-57-19 localhost GET / undefined 
+16-9-2024   14-59-50 localhost GET / undefined 
+16-9-2024   15-3-24 localhost GET / undefined 
